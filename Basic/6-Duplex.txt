@@ -1,0 +1,17 @@
+
+    Duplex
+S1# configure terminal
+S1(config)# interface FastEthernet 0/1
+S1(config-if)# duplex full	
+S1(config-if)# speed 100	
+S1(config-if)# end	
+S1# copy running-config startup-config
+
+Note: Mismatched settings for the duplex mode and speed of switch ports can cause connectivity issues. 
+Autonegotiation failure creates mismatched settings.
+
+----------------------------------------------------------------
+    Auto-MDIX
+S1(config-if)# mdix auto
+S1# show controllers ethernet-controller fa0/1 phy | include MDIX
+

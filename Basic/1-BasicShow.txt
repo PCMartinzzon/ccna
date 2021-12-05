@@ -1,0 +1,22 @@
+Display interface status and configuration. 	S1# show interfaces [interface-id]
+Display current startup configuration.      	S1# show startup-config
+Display current running configuration.      	S1# show running-config
+Display information about flash file system.	S1# show flash
+Display system hardware and software status.	S1# show version
+Display history of command entered.	            S1# show history
+Display IP information about an interface.  	S1# show ip interface [interface-id] OR S1# show ipv6 interface [interface-id]
+Display the MAC address table.	                S1# show mac-address-table OR S1# show mac address-table
+The show vlan summary                           S1# show vlan summary
+
+
+----------------------------------------------------------------
+Verify Trunk Configuration                      S1# show interfaces fa0/1 switchport
+Verify DTP Mode                                 S1# show dtp interface fa0/1
+Missing VLANs                                   S1# show vlan brief
+misconfigured trunk port                        S1# show interfaces trunk
+Verify the port configuration on S1             S1# show interface fa0/6 switchport
+Verify the subinterface status                  R1# show ip interface brief
+general status of the port channel interface    S1# show interfaces port-channel 1
+
+EtherChannel Summary Information                S1# show etherchannel summary
+ 

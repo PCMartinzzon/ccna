@@ -1,0 +1,44 @@
+enable
+
+show sdm prefer
+(IF DUAL IPV4 & IPV6 DEFAULT TEMPLATE, SKIP RELOAD!!!!
+conf t
+sdm prefer dual-ipv4-and-ipv6 default
+do wr
+reload
+
+enable
+clock set 00:00:00 21 oct 2021
+
+conf t
+banner motd # Authorized Access Only!#
+enable secret cisco
+hostname S1
+username admin password cisco
+ip domain-name ccnalabs.com
+crypto key generate rsa general-keys modulus 1024
+ip default-gateway 192.168.1.1
+service password-encryption
+
+line con 0
+password cisco
+login
+logging synchronous
+exit
+
+line vty 0 4
+password cisco
+login
+login local
+transport input telnet ssh
+logging synchronous
+exit
+
+interface vlan 1
+ip address 192.168.1.5 255.255.255.224
+ipv6 address 2001:db8:acad:1::2/64
+no shut
+desc link to remote management
+exit
+
+do wr

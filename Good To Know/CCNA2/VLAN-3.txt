@@ -1,0 +1,38 @@
+
+
+
+            ---VLAN Configuration---
+
+
+Normal Range VLANs
+
+The following are characteristics of normal range VLANs:
+
+They are used in all small- and medium-sized business and enterprise networks.
+They are identified by a VLAN ID between 1 and 1005.
+IDs 1002 through 1005 are reserved for legacy network technologies (i.e., Token Ring and Fiber Distributed Data Interface).
+IDs 1 and 1002 to 1005 are automatically created and cannot be removed.
+Configurations are stored in the switch flash memory in a VLAN database file called vlan.dat.
+When configured, VLAN trunking protocol (VTP), helps synchronize the VLAN database between switches.
+Extended Range VLANs
+
+The following are characteristics of extended range VLANs:
+
+They are used by service providers to service multiple customers and by global enterprises large enough to need extended range VLAN IDs.
+They are identified by a VLAN ID between 1006 and 4094.
+Configurations are saved, by default, in the running configuration.
+They support fewer VLAN features than normal range VLANs.
+Requires VTP transparent mode configuration to support extended range VLANs.
+
+Note: 4096 is the upper boundary for the number of VLANs available on Catalyst switches, because there are 
+12 bits in the VLAN ID field of the IEEE 802.1Q header.
+
+
+----------------------------------------------------------------
+
+        ---Delete VLANs---
+
+Caution: Before deleting a VLAN, reassign all member ports to a different VLAN first. 
+Any ports that are not moved to an active VLAN are unable to communicate with other hosts after the VLAN 
+is deleted and until they are assigned to an active VLAN.
+

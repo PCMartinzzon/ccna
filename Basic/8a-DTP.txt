@@ -1,0 +1,14 @@
+
+
+        ---Cisco switches have a proprietary protocol---
+
+To enable trunking from a Cisco switch to a device that does not support DTP, use the switchport mode trunk and 
+switchport nonegotiate interface configuration mode commands. 
+This causes the interface to become a trunk, but it will not generate DTP frames.
+
+S1(config-if)# switchport mode trunk
+S1(config-if)# switchport nonegotiate
+
+    ---re-enable dynamic trunking protocol---
+S1(config-if)# switchport mode dynamic auto
+

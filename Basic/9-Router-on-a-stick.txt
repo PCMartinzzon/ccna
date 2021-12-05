@@ -1,0 +1,101 @@
+
+
+S1 VLAN and Trunking Configuration
+
+
+1. Create and name the VLANs.
+S1(config)# vlan 10
+S1(config-vlan)# name LAN10
+S1(config-vlan)# exit
+S1(config)# vlan 20
+S1(config-vlan)# name LAN20
+S1(config-vlan)# exit
+S1(config)# vlan 99
+S1(config-vlan)# name Management
+S1(config-vlan)# exit
+S1(config)#
+
+2. Create the management interface.
+S1(config)# interface vlan 99
+S1(config-if)# ip add 192.168.99.2 255.255.255.0
+S1(config-if)# no shut
+S1(config-if)# exit
+S1(config)# ip default-gateway 192.168.99.1
+S1(config)#
+
+3. Configure access ports.
+S1(config)# interface fa0/6
+S1(config-if)# switchport mode access
+S1(config-if)# switchport access vlan 10
+S1(config-if)# no shut
+S1(config-if)# exit
+S1(config)#
+
+4. Configure trunking ports.
+S1(config)# interface fa0/1
+S1(config-if)# switchport mode trunk
+S1(config-if)# no shut
+S1(config-if)# exit
+S1(config)# interface fa0/5
+S1(config-if)# switchport mode trunk
+S1(config-if)# no shut
+S1(config-if)# end
+
+
+----------------------------------------------------------------
+
+S2 VLAN and Trunking Configuration
+
+S2(config)# vlan 10
+S2(config-vlan)# name LAN10
+S2(config-vlan)# exit
+S2(config)# vlan 20
+S2(config-vlan)# name LAN20
+S2(config-vlan)# exit
+S2(config)# vlan 99
+S2(config-vlan)# name Management
+S2(config-vlan)# exit
+S2(config)#
+S2(config)# interface vlan 99
+S2(config-if)# ip add 192.168.99.3 255.255.255.0
+S2(config-if)# no shut
+S2(config-if)# exit
+S2(config)# ip default-gateway 192.168.99.1
+S2(config)# interface fa0/18
+S2(config-if)# switchport mode access
+S2(config-if)# switchport access vlan 20
+S2(config-if)# no shut
+S2(config-if)# exit
+S2(config)# interface fa0/1
+S2(config-if)# switchport mode trunk
+S2(config-if)# no shut
+S2(config-if)# exit
+S2(config-if)# end
+
+
+----------------------------------------------------------------
+
+R1 Subinterface Configuration
+
+R1(config)# interface G0/0/1.10
+R1(config-subif)# description Default Gateway for VLAN 10
+R1(config-subif)# encapsulation dot1Q 10
+R1(config-subif)# ip add 192.168.10.1 255.255.255.0
+R1(config-subif)# exit
+R1(config)#
+R1(config)# interface G0/0/1.20
+R1(config-subif)# description Default Gateway for VLAN 20
+R1(config-subif)# encapsulation dot1Q 20
+R1(config-subif)# ip add 192.168.20.1 255.255.255.0
+R1(config-subif)# exit
+R1(config)#
+R1(config)# interface G0/0/1.99
+R1(config-subif)# description Default Gateway for VLAN 99
+R1(config-subif)# encapsulation dot1Q 99
+R1(config-subif)# ip add 192.168.99.1 255.255.255.0
+R1(config-subif)# exit
+R1(config)#
+R1(config)# interface G0/0/1
+R1(config-if)# description Trunk link to S1
+R1(config-if)# no shut
+R1(config-if)# end

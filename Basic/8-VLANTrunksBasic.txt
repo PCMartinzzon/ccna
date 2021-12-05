@@ -1,0 +1,42 @@
+       
+        
+        
+        ---MUST CONFIG VLANS FIRST---
+
+To enable trunk links, configure the interconnecting ports with the set of interface configuration commands shown in the table
+	
+Switch# configure terminal
+Switch(config)# interface interface-id	
+Switch(config-if)# switchport mode trunk	
+Switch(config-if)# switchport trunk native vlan vlan-id
+Switch(config-if)# switchport trunk allowed vlan vlan-list
+Switch(config-if)# end
+
+
+example the configuration of port F0/1 on switch S1 as a trunk port. 
+The native VLAN is changed to VLAN 99 and the allowed VLAN list is restricted to 10, 20, 30, and 99.
+This configuration assumes the use of Cisco Catalyst 2960 switches which automatically use 802.1Q encapsulation on trunk links
+
+S1(config)# interface fastEthernet 0/1
+S1(config-if)# switchport mode trunk
+S1(config-if)# switchport trunk native vlan 99
+S1(config-if)# switchport trunk allowed vlan 10,20,30,99
+S1(config-if)# end
+
+            ---IF---
+SW2(config)#interface fa0/14
+SW2(config-if)#switchport mode trunk
+Command rejected: An interface whose trunk encapsulation is "Auto" can not be configured to "trunk" mode.
+
+SW2(config-if)#switchport trunk encapsulation dot1q
+SW2(config)#interface fa0/14
+SW2(config-if)#switchport mode trunk
+
+
+----------------------------------------------------------------
+            ---Reset---
+S1(config)# interface fa0/1
+S1(config-if)# no switchport trunk allowed vlan
+S1(config-if)# no switchport trunk native vlan
+S1(config-if)# end
+

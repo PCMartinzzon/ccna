@@ -1,0 +1,70 @@
+Skapa vlan
+
+conf t
+vlan "vlan id"
+name "name on vlan"
+exit
+
+exemple
+S1# configure terminal
+S1(config)# vlan 20
+S1(config-vlan)# name student
+S1(config-vlan)# end
+
+----------------------------------------------------------------
+The table displays the syntax for defining a port to be an access port and assigning it to a VLAN. The switchport mode access 
+command is optional, but strongly recommended as a security best practice. With this command, the interface changes to strictly access mode. 
+Access mode indicates that the port belongs to a single VLAN and will not negotiate to become a trunk link.
+	
+configure terminal
+interface "interface-id"
+switchport mode access
+switchport access vlan vlan-id
+exit
+
+exempel
+
+S1# configure terminal
+S1(config)# interface fa0/6
+S1(config-if)# switchport mode access
+S1(config-if)# switchport access vlan 20
+S1(config-if)# end
+
+
+----------------------------------------------------------------
+Voice
+LANs supporting voice traffic typically also have quality of service (QoS) enabled. Voice traffic must be labeled as trusted as soon as it 
+enters the network. Use the mls qos trust [cos | device cisco-phone | dscp | ip-precedence] interface configuration command to set the trusted 
+state of an interface, and to indicate which fields of the packet are used to classify traffic.
+
+The configuration in the example creates the two VLANs (i.e., VLAN 20 and VLAN 150) and then assigns the F0/18 interface of S3 as a switchport 
+in VLAN 20. It also assigns voice traffic to VLAN 150 and enables QoS classification based on the class of service (CoS) assigned by the IP phone.
+
+exempel
+S3(config)# vlan 20
+S3(config-vlan)# name student
+S3(config-vlan)# vlan 150
+S3(config-vlan)# name VOICE
+S3(config-vlan)# exit
+S3(config)# interface fa0/18
+S3(config-if)# switchport mode access 
+S3(config-if)# switchport access vlan 20
+S3(config-if)# mls qos trust cos
+S3(config-if)# switchport voice vlan 150
+S3(config-if)# end
+S3#
+
+
+----------------------------------------------------------------
+Change VLAN Port Membership
+port to VLAN 
+S1(config)# interface fa0/18
+S1(config-if)# switchport access vlan XX
+S1(config-if)# end
+
+
+port back to the default VLAN 1 
+S1(config)# interface fa0/18
+S1(config-if)# no switchport access vlan
+S1(config-if)# end
+
