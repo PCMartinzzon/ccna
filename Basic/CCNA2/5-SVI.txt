@@ -1,3 +1,12 @@
+
+███████╗██╗   ██╗██╗
+██╔════╝██║   ██║██║
+███████╗██║   ██║██║
+╚════██║╚██╗ ██╔╝██║
+███████║ ╚████╔╝ ██║
+╚══════╝  ╚═══╝  ╚═╝
+                    
+
 By default, the switch is configured to have its management controlled through VLAN 1. All ports are assigned to VLAN 1 by default. 
 For security purposes, it is considered a best practice to use a VLAN other than VLAN 1 
 for the management VLAN, such as VLAN 99 in the example.
