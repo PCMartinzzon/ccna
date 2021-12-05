@@ -1,0 +1,18 @@
+
+
+
+check lab what to do
+check ip
+check subnets
+connect
+makes a logical map with ip and interfaces
+start conf router
+start conf switch
+
+conf any steps in the order in which the documents are marked
+
+pray to Odin that i works
+
+???
+
+Profit?
