@@ -9,3 +9,19 @@
 
             ---VLAN Trunks---
 
+A VLAN trunk is a Layer 2 link between two switches that carries traffic for all VLANs
+
+switches may require manual configuration of the encapsulation 
+(
+    SW2(config)#interface fa0/14
+SW2(config-if)#switchport mode trunk
+Command rejected: An interface whose trunk encapsulation is "Auto" can not be configured to "trunk" mode.
+
+SW2(config-if)#switchport trunk encapsulation dot1q
+SW2(config)#interface fa0/14
+SW2(config-if)#switchport mode trunk
+)
+
+Use the no switchport trunk allowed vlan and the no switchport trunk native vlan commands to remove the allowed VLANs 
+and reset the native VLAN of the trunk. When it is reset to the default state, the trunk allows all VLANs and uses VLAN 1 as the native VLAN.
+

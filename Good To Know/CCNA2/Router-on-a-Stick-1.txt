@@ -1,0 +1,23 @@
+
+██████╗  ██████╗ ██╗   ██╗████████╗███████╗██████╗        ██████╗ ███╗   ██╗       █████╗       ███████╗████████╗██╗ ██████╗██╗  ██╗
+██╔══██╗██╔═══██╗██║   ██║╚══██╔══╝██╔════╝██╔══██╗      ██╔═══██╗████╗  ██║      ██╔══██╗      ██╔════╝╚══██╔══╝██║██╔════╝██║ ██╔╝
+██████╔╝██║   ██║██║   ██║   ██║   █████╗  ██████╔╝█████╗██║   ██║██╔██╗ ██║█████╗███████║█████╗███████╗   ██║   ██║██║     █████╔╝ 
+██╔══██╗██║   ██║██║   ██║   ██║   ██╔══╝  ██╔══██╗╚════╝██║   ██║██║╚██╗██║╚════╝██╔══██║╚════╝╚════██║   ██║   ██║██║     ██╔═██╗ 
+██║  ██║╚██████╔╝╚██████╔╝   ██║   ███████╗██║  ██║      ╚██████╔╝██║ ╚████║      ██║  ██║      ███████║   ██║   ██║╚██████╗██║  ██╗
+╚═╝  ╚═╝ ╚═════╝  ╚═════╝    ╚═╝   ╚══════╝╚═╝  ╚═╝       ╚═════╝ ╚═╝  ╚═══╝      ╚═╝  ╚═╝      ╚══════╝   ╚═╝   ╚═╝ ╚═════╝╚═╝  ╚═╝
+                                                                                                                                    
+
+
+The router-on-a-stick method requires you to create a subinterface for each VLAN to be routed.
+
+A subinterface is created using the interface interface_id.subinterface_id global configuration mode command. 
+The subinterface syntax is the physical interface followed by a period and a subinterface number. 
+Although not required, it is customary to match the subinterface number with the VLAN number.
+
+Each subinterface is then configured with the following two commands:
+
+    *encapsulation dot1q vlan_id [native] - This command configures the subinterface to respond to 802.1Q encapsulated traffic from the 
+    specified vlan-id. The native keyword option is only appended to set the native VLAN to something other than VLAN 1.
+
+    *ip address ip-address subnet-mask - This command configures the IPv4 address of the subinterface. 
+    This address typically serves as the default gateway for the identified VLAN.

@@ -1,0 +1,17 @@
+
+██████╗ ████████╗██████╗        ██╗
+██╔══██╗╚══██╔══╝██╔══██╗      ███║
+██║  ██║   ██║   ██████╔╝█████╗╚██║
+██║  ██║   ██║   ██╔═══╝ ╚════╝ ██║
+██████╔╝   ██║   ██║            ██║
+╚═════╝    ╚═╝   ╚═╝            ╚═╝
+                                   
+
+
+Some Cisco switches have a proprietary protocol that lets them automatically negotiate trunking with a neighboring device. 
+This protocol is called Dynamic Trunking Protocol (DTP). 
+DTP can speed up the configuration process for a network administrator. 
+Ethernet trunk interfaces support different trunking modes. 
+An interface can be set to trunking or nontrunking, or to negotiate trunking with the neighbor interface. 
+Trunk negotiation is managed by DTP, which operates on a point-to-point basis only, between network devices.
+

@@ -1,0 +1,85 @@
+
+██╗      █████╗ ██╗   ██╗███████╗██████╗     ██████╗     ███████╗██╗    ██╗██╗████████╗ ██████╗██╗  ██╗    ██╗███╗   ██╗████████╗███████╗██████╗       ██╗   ██╗██╗      █████╗ ███╗   ██╗    ██████╗  ██████╗ ██╗   ██╗████████╗██╗███╗   ██╗ ██████╗ 
+██║     ██╔══██╗╚██╗ ██╔╝██╔════╝██╔══██╗    ╚════██╗    ██╔════╝██║    ██║██║╚══██╔══╝██╔════╝██║  ██║    ██║████╗  ██║╚══██╔══╝██╔════╝██╔══██╗      ██║   ██║██║     ██╔══██╗████╗  ██║    ██╔══██╗██╔═══██╗██║   ██║╚══██╔══╝██║████╗  ██║██╔════╝ 
+██║     ███████║ ╚████╔╝ █████╗  ██████╔╝     █████╔╝    ███████╗██║ █╗ ██║██║   ██║   ██║     ███████║    ██║██╔██╗ ██║   ██║   █████╗  ██████╔╝█████╗██║   ██║██║     ███████║██╔██╗ ██║    ██████╔╝██║   ██║██║   ██║   ██║   ██║██╔██╗ ██║██║  ███╗
+██║     ██╔══██║  ╚██╔╝  ██╔══╝  ██╔══██╗     ╚═══██╗    ╚════██║██║███╗██║██║   ██║   ██║     ██╔══██║    ██║██║╚██╗██║   ██║   ██╔══╝  ██╔══██╗╚════╝╚██╗ ██╔╝██║     ██╔══██║██║╚██╗██║    ██╔══██╗██║   ██║██║   ██║   ██║   ██║██║╚██╗██║██║   ██║
+███████╗██║  ██║   ██║   ███████╗██║  ██║    ██████╔╝    ███████║╚███╔███╔╝██║   ██║   ╚██████╗██║  ██║    ██║██║ ╚████║   ██║   ███████╗██║  ██║       ╚████╔╝ ███████╗██║  ██║██║ ╚████║    ██║  ██║╚██████╔╝╚██████╔╝   ██║   ██║██║ ╚████║╚██████╔╝
+╚══════╝╚═╝  ╚═╝   ╚═╝   ╚══════╝╚═╝  ╚═╝    ╚═════╝     ╚══════╝ ╚══╝╚══╝ ╚═╝   ╚═╝    ╚═════╝╚═╝  ╚═╝    ╚═╝╚═╝  ╚═══╝   ╚═╝   ╚══════╝╚═╝  ╚═╝        ╚═══╝  ╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝    ╚═╝  ╚═╝ ╚═════╝  ╚═════╝    ╚═╝   ╚═╝╚═╝  ╚═══╝ ╚═════╝ 
+                                                                                                                                
+                                                                                                                                
+
+Modern, enterprise networks rarely use router-on-a-stick because it does not scale easily to meet requirements. 
+In these very large networks, network administrators use Layer 3 switches to configure inter-VLAN routing.
+
+Inter-VLAN routing using the router-on-a-stick method is simple to implement for a small to medium-sized organization. 
+However, a large enterprise requires a faster, much more scalable method to provide inter-VLAN routing.
+
+Enterprise campus LANs use Layer 3 switches to provide inter-VLAN routing. 
+Layer 3 switches use hardware-based switching to achieve higher-packet processing rates than routers. 
+Layer 3 switches are also commonly implemented in enterprise distribution layer wiring closets.
+
+Capabilities of a Layer 3 switch include the ability to do the following:
+
+    *Route from one VLAN to another using multiple switched virtual interfaces (SVIs).
+    *Convert a Layer 2 switchport to a Layer 3 interface (i.e., a routed port). 
+     A routed port is similar to a physical interface on a Cisco IOS router.
+
+To provide inter-VLAN routing, Layer 3 switches use SVIs. 
+SVIs are configured using the same interface vlan vlan-id command used to create the management SVI on a Layer 2 switch. 
+A Layer 3 SVI must be created for each of the routable VLANs.
+
+-------------------------------------------
+            ---Routing on a Layer 3 Switch---
+
+If VLANs are to be reachable by other Layer 3 devices, then they must be advertised using static or dynamic routing. 
+To enable routing on a Layer 3 switch, a routed port must be configured.
+
+A routed port is created on a Layer 3 switch by disabling the switchport feature on a Layer 2 port that is connected to another Layer 3 device. 
+Specifically, configuring the no switchport interface configuration command on a Layer 2 port converts it into a Layer 3 interface. 
+Then the interface can be configured with an IPv4 configuration to connect to a router or another Layer 3 switch
+
+-----------------------------------------------
+            ---Common Inter-VLAN Issues---
+
+Missing VLANs
+
+    *Create (or re-create) the VLAN if it does not exist.
+    *Ensure host port is assigned to the correct VLAN.
+
+    (
+        show vlan [brief]
+        show interfaces switchport
+        ping
+    )
+
+Switch Trunk Port Issues
+
+    *Ensure trunks are configured correctly.
+    *Ensure port is a trunk port and enabled.
+
+    (	
+        show interfaces trunk
+        show running-config
+    )
+
+Switch Access Port Issues
+
+    *Assign correct VLAN to access port.
+    *Ensure port is an access port and enabled.
+    *Host is incorrectly configured in the wrong subnet.
+
+    (
+        show interfaces switchport
+        show running-config interface
+        ipconfig
+    )
+
+Router Configuration Issues
+
+    *Router subinterface IPv4 address is incorrectly configured.
+    *Router subinterface is assigned to the VLAN ID.
+
+    (
+        show ip interface brief
+        show interfaces
+    )
