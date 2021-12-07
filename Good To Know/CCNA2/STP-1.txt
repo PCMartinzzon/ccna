@@ -7,3 +7,65 @@
 ╚══════╝   ╚═╝   ╚═╝            ╚═╝
                                    
 
+This topic covers the causes of loops in a Layer 2 network and briefly explains how spanning tree protocol works. 
+Redundancy is an important part of the hierarchical design for eliminating single points of failure and preventing 
+disruption of network services to users. 
+Redundant networks require the addition of physical paths, but logical redundancy must also be part of the design. 
+Having alternate physical paths for data to traverse the network makes it possible for users to access network resources, despite path disruption. 
+However, redundant paths in a switched Ethernet network may cause both physical and logical Layer 2 loops.
+
+Ethernet LANs require a loop-free topology with a single path between any two devices. 
+A loop in an Ethernet LAN can cause continued propagation of Ethernet frames until a link is disrupted and breaks the loop.
+
+Spanning Tree Protocol (STP) is a loop-prevention network protocol that allows for redundancy while creating a loop-free Layer 2 topology. 
+IEEE 802.1D is the original IEEE MAC Bridging standard for STP.
+------------------------------------------------------------
+            ---Issues with Redundant Switch Links---
+
+Path redundancy provides multiple network services by eliminating the possibility of a single point of failure. 
+When multiple paths exist between two devices on an Ethernet network, and there is no spanning tree implementation 
+on the switches, a Layer 2 loop occurs. A Layer 2 loop can result in MAC address table instability, 
+link saturation, and high CPU utilization on switches and end-devices, resulting in the network becoming unusable.
+
+Unlike the Layer 3 protocols, IPv4 and IPv6, Layer 2 Ethernet does not include a mechanism to recognize and eliminate endlessly looping frames. 
+Both IPv4 and IPv6 include a mechanism that limits the number of times a Layer 3 networking device can retransmit a packet. 
+A router will decrement the TTL (Time to Live) in every IPv4 packet, and the Hop Limit field in every IPv6 packet. 
+When these fields are decremented to 0, a router will drop the packet. 
+Ethernet and Ethernet switches have no comparable mechanism for limiting the number of times a switch retransmits a Layer 2 frame. 
+STP was developed specifically as a loop prevention mechanism for Layer 2 Ethernet.
+------------------------------------------------------------
+            ---Layer 2 Loops---
+
+Without STP enabled, Layer 2 loops can form, causing broadcast, multicast and unknown unicast frames to loop endlessly. 
+This can bring down a network within a very short amount of time, sometimes in just a few seconds. 
+For example, broadcast frames, such as an ARP Request are forwarded out all of the switch ports, except the original ingress port. 
+This ensures that all devices in a broadcast domain are able to receive the frame. 
+If there is more than one path for the frame to be forwarded out of, an endless loop can result. 
+When a loop occurs, the MAC address table on a switch will constantly change with the updates from the 
+broadcast frames, which results in MAC database instability. 
+This can cause high CPU utilization, which makes the switch unable to forward frames.
+
+Broadcast frames are not the only type of frames that are affected by loops. 
+Unknown unicast frames sent onto a looped network can result in duplicate frames arriving at the destination device. 
+An unknown unicast frame is when the switch does not have the destination MAC address in its MAC address table 
+and must forward the frame out all ports, except the ingress port.
+---------------------------------------------------------------
+            ---Broadcast Storm---
+
+A broadcast storm is an abnormally high number of broadcasts overwhelming the network during a specific amount of time. 
+Broadcast storms can disable a network within seconds by overwhelming switches and end devices. 
+Broadcast storms can be caused by a hardware problem such as a faulty NIC or from a Layer 2 loop in the network.
+
+Layer 2 broadcasts in a network, such as ARP Requests are very common. 
+A Layer 2 loop is likely to have immediate and disabling consequences on the network. 
+Layer 2 multicasts are typically forwarded the same way as a broadcast by the switch. 
+So, although IPv6 packets are never forwarded as a Layer 2 broadcast, ICMPv6 Neighbor Discovery uses Layer 2 multicasts.
+-------------------------------------------------------------
+            ---The Spanning Tree Algorithm---
+
+STP is based on an algorithm invented by Radia Perlman while working for Digital Equipment Corporation, 
+and published in the 1985 paper "An Algorithm for Distributed Computation of a Spanning Tree in an Extended LAN.” 
+Her spanning tree algorithm (STA) creates a loop-free topology by selecting a single root bridge where all 
+other switches determine a single least-cost path.
+
+Without the loop prevention protocol, loops would occur rendering a redundant switch network inoperable.
