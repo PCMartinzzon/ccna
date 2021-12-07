@@ -1,0 +1,134 @@
+
+███████╗████████╗██████╗       ██████╗ 
+██╔════╝╚══██╔══╝██╔══██╗      ╚════██╗
+███████╗   ██║   ██████╔╝█████╗ █████╔╝
+╚════██║   ██║   ██╔═══╝ ╚════╝██╔═══╝ 
+███████║   ██║   ██║           ███████╗
+╚══════╝   ╚═╝   ╚═╝           ╚══════╝
+                                       
+
+            ---Steps to a Loop-Free Topology---
+
+STA and STP functions, switches use Bridge Protocol Data Units (BPDUs) to share information about themselves and their connections. 
+BPDUs are used to elect the root bridge, root ports, designated ports, and alternate ports. 
+Each BPDU contains a bridge ID (BID) that identifies which switch sent the BPDU. 
+The BID is involved in making many of the STA decisions including root bridge and port roles. 
+As shown in the figure, the BID contains a priority value, an extended system ID, and the MAC address of the switch. 
+The lowest BID value is determined by the combination of these three fields.
+
+    Bridge Priority
+
+The default priority value for all Cisco switches is the decimal value 32768. 
+The range is 0 to 61440 in increments of 4096. A lower bridge priority is preferable. 
+A bridge priority of 0 takes precedence over all other bridge priorities.
+
+    Extended System ID
+
+The extended system ID value is a decimal value added to the bridge priority value in the BID to identify the VLAN for this BPDU.
+
+Early implementations of IEEE 802.1D were designed for networks that did not use VLANs. 
+There was a single common spanning tree across all switches. 
+For this reason, in older switches, the extended system ID was not included in the BPDUs. 
+As VLANs became common for network infrastructure segmentation, 802.1D was enhanced to include support for VLANs, 
+which required that the 12-bit VLAN ID be included in the BPDU frame. 
+VLAN information is included in the BPDU frame through the use of the extended system ID.
+
+The extended system ID allows later implementations of STP to have different root bridges for different sets of VLANs. 
+This can allow for redundant, non-forwarding links in a STP topology for one set of VLANs to be used 
+by a different set of VLANs using a different root bridge.
+
+    MAC address
+
+When two switches are configured with the same priority and have the same extended system ID, the switch having the 
+MAC address with the lowest value, expressed in hexadecimal, will have the lower BID.
+-------------------------------------------------
+
+            ---1. Elect the Root Bridge---
+
+The STA designates a single switch as the root bridge and uses it as the reference point for all path calculations. 
+Switches exchange BPDUs to build the loop-free topology beginning with selecting the root bridge.
+
+An election process determines which switch becomes the root bridge. 
+All switches in the broadcast domain participate in the election process. 
+After a switch boots, it begins to send out BPDU frames every two seconds. 
+These BPDU frames contain the BID of the sending switch and the BID of the root bridge, known as the Root ID.
+
+The switch with the lowest BID will become the root bridge. 
+At first, all switches declare themselves as the root bridge with their own BID set as the Root ID. 
+Eventually, the switches learn through the exchange of BPDUs which switch has the lowest BID and will agree on one root bridge.
+------------------------------------------------
+
+            ---2. Elect the Root Ports---
+
+After the root bridge has been determined, the STA algorithm is used to select the root port. 
+Every non-root switch will select one root port. 
+The root port is the port closest to the root bridge in terms of overall cost (best path) to the root bridge. 
+This overall cost is known as the internal root path cost.
+--------------------------------------------------
+
+            ---3. Elect Designated Ports---
+
+The loop prevention part of spanning tree becomes evident during these next two steps. 
+After each switch selects a root port, the switches will then select designated ports.
+
+Every segment between two switches will have one designated port. 
+The designated port is a port on the segment (with two switches) that has the internal root path cost to the root bridge. 
+In other words, the designated port has the best path to receive traffic leading to the root bridge.
+
+What is not a root port or a designated port becomes an alternate or blocked port. 
+The end result is a single path from every switch to the root bridge.
+------------------------------------------------------
+
+            ---4. Elect Alternate (Blocked) Ports---
+
+If a port is not a root port or a designated port, then it becomes an alternate (or backup) port. 
+Alternate ports and backup ports are in discarding or blocking state to prevent loops. 
+-------------------------------------------------------
+
+            ---STP Timers and Port States---
+
+STP convergence requires three timers, as follows:
+
+    *Hello Timer -The hello time is the interval between BPDUs. The default is 2 seconds but can be modified to between 1 and 10 seconds.
+
+    *Forward Delay Timer -The forward delay is the time that is spent in the listening and learning state. 
+    The default is 15 seconds but can be modified to between 4 and 30 seconds.
+
+    *Max Age Timer -The max age is the maximum length of time that a switch waits before attempting to change the STP topology. 
+    The default is 20 seconds but be modified to between 6 and 40 seconds.
+
+Note: The default times can be changed on the root bridge, which dictates the value of these timers for the STP domain.
+
+STP facilitates the logical loop-free path throughout the broadcast domain. 
+The spanning tree is determined through the information learned by the exchange of the BPDU frames between the interconnected switches. 
+If a switch port transitions directly from the blocking state to the forwarding state without information about the full 
+topology during the transition, the port can temporarily create a data loop. 
+For this reason, STP has five ports states, four of which are operational port states as shown in the figure. 
+The disabled state is considered non-operational.
+
+Note: To avoid problems with STP, IEEE recommends a maximum diameter of seven switches when using the default STP timers.
+-------------------------------------------------
+
+
+STP	            This is the original IEEE 802.1D version (802.1D-1998 and earlier) that provides a loop-free topology in a network with redundant links. 
+                Also called Common Spanning Tree (CST), it assumes one spanning tree instance for the entire bridged network, regardless of 
+                the number of VLANs.
+
+PVST+	        Per-VLAN Spanning Tree (PVST+) is a Cisco enhancement of STP that provides a separate 802.1D spanning tree instance for
+                each VLAN configured in the network. PVST+ supports PortFast, UplinkFast, BackboneFast, BPDU guard, BPDU filter, root guard, 
+                 and loop guard.
+
+RSTP           	Rapid Spanning Tree Protocol (RSTP) or IEEE 802.1w is an evolution of STP that provides faster convergence than STP.
+
+802.1D-2004	    This is an updated version of the STP standard, incorporating IEEE 802.1w.
+
+Rapid PVST+	    This is a Cisco enhancement of RSTP that uses PVST+ and provides a separate instance of 802.1w per VLAN. 
+                Each separate instance supports PortFast, BPDU guard, BPDU filter, root guard, and loop guard.
+
+MSTP	        Multiple Spanning Tree Protocol (MSTP) is an IEEE standard inspired by the earlier Cisco proprietary Multiple 
+                Instance STP (MISTP) implementation. MSTP maps multiple VLANs into the same spanning tree instance.
+
+MST	            Multiple Spanning Tree (MST) is the Cisco implementation of MSTP, which provides up to 16 instances of 
+                RSTP and combines many VLANs with the same physical and logical topology into a common RSTP instance. 
+                Each instance supports PortFast, BPDU guard, BPDU filter, root guard, and loop guard.
+
