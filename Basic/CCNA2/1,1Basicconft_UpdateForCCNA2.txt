@@ -1,0 +1,45 @@
+
+██████╗  █████╗ ███████╗██╗ ██████╗     ██████╗ ██████╗ ███╗   ██╗███████╗
+██╔══██╗██╔══██╗██╔════╝██║██╔════╝    ██╔════╝██╔═══██╗████╗  ██║██╔════╝
+██████╔╝███████║███████╗██║██║         ██║     ██║   ██║██╔██╗ ██║█████╗  
+██╔══██╗██╔══██║╚════██║██║██║         ██║     ██║   ██║██║╚██╗██║██╔══╝  
+██████╔╝██║  ██║███████║██║╚██████╗    ╚██████╗╚██████╔╝██║ ╚████║██║     
+╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝ ╚═════╝     ╚═════╝ ╚═════╝ ╚═╝  ╚═══╝╚═╝     
+                                                                          
+
+Enable
+show startup-config
+(STARTUP-CONFIG IS NOT PRESENT) Switchen är redan reloadad.
+clock set 01:02:03 04 may 2021
+
+conf t
+hostname S1
+banner motd #Authorized Access Only!#
+enable secret class (PRIVILEGIED EXEC MODE)
+username admin password cisco
+ip domain-name ccnalabs.com
+crypto key generate rsa general-keys modulus 1024
+service password encryption
+ip default-gateway 192.168.1.1 (ÄNDRA TILL RÄTT FÖR UPGIFTEN)
+
+line con 0
+password cisco
+login
+logging synchronous
+exit
+
+Line vty 0 4
+password cisco
+login
+logging synchronous
+transport input telnet ssh
+exit
+
+do sh vlan brief
+#Finns massor med gamla Vlans# > do delete vlan.dat
+
+do sh sdm prefer
+'dual ipv4 & ipv6 default template' (SDM AKTIVERAT, SKIPPA RELOAD)
+sdm prefer dual-ipv4-and-ipv6 default
+do wr
+do reload
