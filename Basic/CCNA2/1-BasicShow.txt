@@ -28,4 +28,7 @@ Verify the subinterface status                  R1# show ip interface brief
 general status of the port channel interface    S1# show interfaces port-channel 1
 
 EtherChannel Summary Information                S1# show etherchannel summary
- 
+Displays STP root bridge information            S1# show spanning-tree
+general status of the port channel interface    S1# show interfaces port-channel 1
+display one line of information                 S1# show etherchannel summary
+interface member of an EtherChannel bundle      show interfaces f0/1 etherchannel

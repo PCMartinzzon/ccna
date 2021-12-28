@@ -46,3 +46,4 @@ S1(config-if)# no switchport trunk allowed vlan
 S1(config-if)# no switchport trunk native vlan
 S1(config-if)# end
 
+----------------------------------------------------------------
