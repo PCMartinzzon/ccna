@@ -1,0 +1,18 @@
+
+██████╗ ██╗  ██╗ ██████╗██████╗ ██╗   ██╗██╗  ██╗
+██╔══██╗██║  ██║██╔════╝██╔══██╗██║   ██║██║  ██║
+██║  ██║███████║██║     ██████╔╝██║   ██║███████║
+██║  ██║██╔══██║██║     ██╔═══╝ ╚██╗ ██╔╝╚════██║
+██████╔╝██║  ██║╚██████╗██║      ╚████╔╝      ██║
+╚═════╝ ╚═╝  ╚═╝ ╚═════╝╚═╝       ╚═══╝       ╚═╝
+                                                 
+
+
+
+        Syntax to exclude IPv4 addresses
+Router(config)# ip dhcp excluded-address low-address [high-address]
+
+        command syntax to define the pool
+Router(config)# ip dhcp pool pool-name
+Router(dhcp-config)# 
+

@@ -32,3 +32,11 @@ Displays STP root bridge information            S1# show spanning-tree
 general status of the port channel interface    S1# show interfaces port-channel 1
 display one line of information                 S1# show etherchannel summary
 interface member of an EtherChannel bundle      show interfaces f0/1 etherchannel
+
+
+----------------------------------------------------------------
+DHCPv4 commands configured on the router.       show running-config | section dhcp
+List of all IPv4 address to MAC address         show ip dhcp binding
+information the number of DHCPv4 messages       show ip dhcp server statistics
+
+                                                R1# show running-config | section dhcp
